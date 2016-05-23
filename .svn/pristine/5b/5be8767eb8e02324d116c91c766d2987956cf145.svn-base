@@ -1,0 +1,19 @@
+#include "ImageProcessing.h"
+
+void ImageProcessing::run(std::string path_to_file)
+{
+	src = imread( path_to_file, 1 );// --after all we may to assign 2-nd parameter as 0 for return Grayscale 
+	string filename = path_to_file ;
+	filename+=".txt";
+	ofstream out(filename);
+	out << src.rows << endl << src.cols << endl ;// print dimensions of image 
+	//Grayscaling
+	cvtColor( src, src_gray, COLOR_RGB2GRAY );
+
+	for(int j = 0; j < src_gray.cols*src_gray.rows; j++) //for Grayscale
+	{
+		int gray_scale = src_gray.at<uchar>(j);
+		out << gray_scale << endl;
+	}
+	out.close();
+}

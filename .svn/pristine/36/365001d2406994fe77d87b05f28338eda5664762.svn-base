@@ -1,0 +1,26 @@
+#if !defined IMAGE_PROCESSING
+#define IMAGE_PROCESSING
+
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+
+using namespace cv;
+using namespace std;
+
+
+class ImageProcessing
+{
+	Mat src;
+	Mat src_gray;
+
+public:
+	void run(std::string path_to_file);
+};
+
+
+#endif

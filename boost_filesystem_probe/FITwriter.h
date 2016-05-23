@@ -1,0 +1,18 @@
+#if !defined FIT_WRITER
+#define FIT_WRITER
+
+
+#include <string.h>
+#include <string>
+#include <stdio.h>
+
+
+
+class FITwriter
+{
+public:
+	void writeFIT(std::string path_to_file);
+};
+
+
+#endif

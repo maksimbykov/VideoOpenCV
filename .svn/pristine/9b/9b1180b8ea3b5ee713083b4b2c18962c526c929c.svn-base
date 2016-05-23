@@ -1,0 +1,18 @@
+#include <iostream>
+#include "DecomposeVideo.h"
+#include "ImageProcessing.h"
+#include "FITwriter.h"
+
+int main(int argc, char* argv[])
+{
+	DecomposeVideo dv;
+
+	dv.ffmpeg("C:\\Alias\\test.avi");
+	dv.run_processing();
+
+
+
+  
+
+  return 0;
+}

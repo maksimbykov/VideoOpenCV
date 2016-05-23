@@ -1,0 +1,67 @@
+#include "DecomposeVideo.h"
+#include "ImageProcessing.h"
+#include "FITwriter.h"
+
+
+void DecomposeVideo::ffmpeg( std::string path_to_video)
+{	
+	system("mkdir C:\\Alias\\frames");
+	std::string fmpeg = "C:\\Alias\\ffmpeg.exe -i " + path_to_video + " C:\\Alias\\frames\\%d.png";   // path_to_video including filename of video
+	system(fmpeg.c_str());
+}
+
+
+void DecomposeVideo::run_processing(/*fs::path full_path*/)
+{
+	/*fs::path apppath( fs::initial_path<fs::path>() );
+    apppath = fs::system_complete( fs::path( full_path ) );*/
+
+	path p ( /*apppath+ */ "C:\\Alias\\frames\\");   // p reads clearer than argv[1] in the following code
+	
+	try
+	{
+		if (exists(p))    // does p actually exist?
+		{
+			if (is_regular_file(p))        // is p a regular file?   
+				cout << p << " size is " << file_size(p) << '\n';
+
+			else if (is_directory(p))      // is p a directory?
+			{
+				cout << p << " is a directory containing:\n";
+
+				typedef vector<path> vec;             // store paths,
+				vec v;                                // so we can sort them later
+
+				copy(directory_iterator(p), directory_iterator(), back_inserter(v));
+
+				sort(v.begin(), v.end());             // sort, since directory iteration
+				// is not ordered on some file systems
+
+				for (vec::const_iterator it (v.begin()); it != v.end(); ++it)
+				{
+					ImageProcessing ip;
+					ip.run((*it).string());
+
+					FITwriter fr;
+					std::string str = (*it).string() + ".txt";
+					fr.writeFIT(str);
+
+
+					/*string str = "experiment.exe " + (*it).string();               /////////////////////////////////////
+					system( str.c_str() );
+					std::cout << "   " << (*it).string() << '\n';*/
+				}
+			}
+
+			else
+				std::cout << p << " exists, but is neither a regular file nor a directory\n";
+		}
+		else
+			cout << p << " does not exist\n";
+	}
+
+	catch (const filesystem_error& ex)
+	{
+		cout << ex.what() << '\n';
+	}
+}
